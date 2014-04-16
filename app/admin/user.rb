@@ -1,0 +1,26 @@
+ActiveAdmin.register User do
+
+  
+  # See permitted parameters documentation:
+  # https://github.com/gregbell/active_admin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
+  #
+  permit_params :first_name, :last_name, :email, :password, :password_confirmation, :address, :phone, :role, :store_id
+  #
+  # or
+  #
+  # permit_params do
+  #  permitted = [:permitted, :attributes]
+  #  permitted << :other if resource.something?
+  #  permitted
+  # end
+  index do
+    column :first_name
+    column :last_name
+    column :store_id
+    column :role
+    column :email
+    column :address
+    column :current_sign_in_at
+    default_actions
+  end
+end

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source source="LOCAL" name="Rails crescent_store: development" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="a91fb4ef-59f4-4c95-ba83-0ed3b436e6d0">
+    <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+    <jdbc-url>jdbc:mysql://127.0.0.1/developmet_crescent</jdbc-url>
+    <user-name>root</user-name>
+    <user-password>dfd8dfc5dfc5dfde</user-password>
+    <libraries>
+      <library>
+        <url>file://$USER_HOME$/.RubyMine50/config/jdbc-drivers/mysql-connector-license.txt</url>
+      </library>
+      <library>
+        <url>file://$USER_HOME$/.RubyMine50/config/jdbc-drivers/mysql-connector-java-5.1.18-bin.jar</url>
+      </library>
+    </libraries>
+  </data-source>
+  <data-source source="LOCAL" name="Rails crescent_store: test" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="d1ea0c25-b502-43f3-b622-f3139a88da3e">
+    <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+    <jdbc-url>jdbc:mysql://127.0.0.1/test_crescent</jdbc-url>
+    <user-name>root</user-name>
+    <user-password>dfd8dfc5dfc5dfde</user-password>
+    <libraries>
+      <library>
+        <url>file://$USER_HOME$/.RubyMine50/config/jdbc-drivers/mysql-connector-license.txt</url>
+      </library>
+      <library>
+        <url>file://$USER_HOME$/.RubyMine50/config/jdbc-drivers/mysql-connector-java-5.1.18-bin.jar</url>
+      </library>
+    </libraries>
+  </data-source>
+  <data-source source="LOCAL" name="Rails crescent_store: production" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="3d5b87e3-666a-4e68-a333-e4531f830580">
+    <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+    <jdbc-url>jdbc:mysql://127.0.0.1/production_crescent</jdbc-url>
+    <user-name>root</user-name>
+    <user-password>dfd8dfc5dfc5dfde</user-password>
+    <libraries>
+      <library>
+        <url>file://$USER_HOME$/.RubyMine50/config/jdbc-drivers/mysql-connector-license.txt</url>
+      </library>
+      <library>
+        <url>file://$USER_HOME$/.RubyMine50/config/jdbc-drivers/mysql-connector-java-5.1.18-bin.jar</url>
+      </library>
+    </libraries>
+  </data-source>
+</component>

@@ -1,0 +1,17 @@
+<%= form_for(@daily_expense) do |f| %>
+  <% if @daily_expense.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@daily_expense.errors.count, "error") %> prohibited this daily_expense from being saved:</h2>
+
+      <ul>
+      <% @daily_expense.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

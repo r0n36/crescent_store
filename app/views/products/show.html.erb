@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @product.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @product.code %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @product.attribute.category %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @product.attribute.price %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @product.quantity %>
+</p>
+
+<p>
+  <strong>Size:</strong>
+  <%= @product.attribute.size %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @product.attribute.color %>
+</p>
+
+<p>
+  <strong>Available In Store:</strong>
+  <%= Store.where(id: @product.store_id).first.location %>
+</p>
+<%= link_to 'Edit', edit_product_path(@product) %> |
+<%= link_to 'Back', products_path %>

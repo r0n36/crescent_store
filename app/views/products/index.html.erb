@@ -1,0 +1,76 @@
+<h1>Listing products</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Product Code</th>
+      <th>Store</th>
+      <th>Product Category</th>
+      <th>Product Price</th>
+      <th>Product Quantity</th>
+      <th>Product Size</th>
+      <th>Product Color</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @products.each do |product| %>
+
+      <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+        <td >
+          <%= product.name %>
+        </td>
+        <td class="list_description">
+          <%= product.code %>
+        </td>
+        <td class="list_description">
+          <%= Store.where(:id => product.store_id).first.location %>
+        </td>
+        <td class="list_description">
+          <%= product.attribute.category %>
+        </td>
+        <td class="list_description">
+          <%= product.attribute.price %>
+        </td>
+        <td class="list_description">
+          <%= product.quantity %>
+        </td>
+        <td class="list_description">
+          <%= product.attribute.size %>
+        </td>
+        <td class="list_description">
+          <%= product.attribute.color %>
+        </td>
+
+        <td class="list_actions">
+          <%= link_to 'Show', product %><br/>
+          <%= link_to 'Edit', edit_product_path(product) %><br/>
+          <%= link_to 'Destroy', product,
+                      confirm: 'Are you sure?',
+                      method: :delete %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Product', new_product_path %>
+
+<style>
+    .list_line_even {
+        background:#e0f8f8;
+    }
+    .list_line_odd {
+        background:#f8b0f8;
+    }
+    table tr td{
+        color: #000000;
+    }
+    table th{
+        color: red;
+    }
+</style>
