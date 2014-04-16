@@ -33,8 +33,8 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        @product.store_id = Store.where(location: params[:product][:stores][:store_name]).first.id if params[:product][:stores][:store_name].present?
-        @product.save
+        #@product.store_id = Store.where(location: params[:product][:stores][:store_name]).first.id if params[:product][:stores][:store_name].present?
+        #@product.save
         @attribute = Attribute.new(:product_id => @product.id, :size => params[:product][:attributes][:size], :color => params[:product][:attributes][:color], :category => params[:product][:attributes][:category], :price => params[:product][:attributes][:price])
         @attribute.save
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
@@ -86,6 +86,6 @@ class ProductsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def product_params
-    params.require(:product).permit(:name, :code, :quantity, :price, :size, :color, :category, :store_name)
+    params.require(:product).permit(:name, :code, :quantity, :price, :size, :color, :category, :store_id)
   end
 end

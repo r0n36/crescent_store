@@ -26,7 +26,7 @@
           <%= product.code %>
         </td>
         <td class="list_description">
-          <%= Store.where(:id => product.store_id).first.location %>
+          <%= product.store.location %>
         </td>
         <td class="list_description">
           <%= product.attribute.category %>
@@ -47,9 +47,7 @@
         <td class="list_actions">
           <%= link_to 'Show', product %><br/>
           <%= link_to 'Edit', edit_product_path(product) %><br/>
-          <%= link_to 'Destroy', product,
-                      confirm: 'Are you sure?',
-                      method: :delete %>
+          <%= link_to 'Destroy', product,confirm: 'Are you sure?',method: :delete %>
         </td>
       </tr>
     <% end %>

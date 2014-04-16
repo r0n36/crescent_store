@@ -23,4 +23,5 @@ ActiveAdmin.register User do
     column :current_sign_in_at
     default_actions
   end
+  form :partial => "form"
 end
