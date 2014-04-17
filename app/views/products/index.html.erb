@@ -1,62 +1,71 @@
 <!--<h1>Listing products</h1>-->
 <div class="container-fluid">
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Product Name</th>
-      <th>Product Code</th>
-      <th>Store</th>
-      <th>Product Category</th>
-      <th>Product Price</th>
-      <th>Product Quantity</th>
-      <th>Product Size</th>
-      <th>Product Color</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @products.each do |product| %>
-
+  <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Products Avaiable in Store</div>
+    <div class="panel-body">
+      <p>Here is the list of all products which is available in this store. Press 'Sell' button to sell a product and create a invoice!</p>
+    </div>
+    <table class="table table-striped">
+      <thead>
       <tr>
-        <td class="list_description">
-          <%= product.name %>
-        </td>
-        <td class="list_description">
-          <%= product.code %>
-        </td>
-        <td class="list_description">
-          <%= product.store.location %>
-        </td>
-        <td class="list_description">
-          <%= product.attribute.category %>
-        </td>
-        <td class="list_description">
-          <%= product.attribute.price %>
-        </td>
-        <td class="list_description">
-          <%= product.quantity %>
-        </td>
-        <td class="list_description">
-          <%= product.attribute.size %>
-        </td>
-        <td class="list_description">
-          <%= product.attribute.color %>
-        </td>
-        <td>
-          <%= link_to 'Sell', new_report_path, :class => 'btn btn-primary btn-lg', :role=>"button" %>
-        </td>
-        <td class="list_actions">
-          <%= link_to 'Show', product %><br/>
-          <%= link_to 'Edit', edit_product_path(product) %><br/>
-          <%= link_to 'Destroy', product,confirm: 'Are you sure?',method: :delete %>
-        </td>
+        <th>Product Name</th>
+        <th>Product Code</th>
+        <th>Store</th>
+        <th>Product Category</th>
+        <th>Product Price</th>
+        <th>Product Quantity</th>
+        <th>Product Size</th>
+        <th>Product Color</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      </thead>
 
-<br>
+      <tbody>
+      <% @products.each do |product| %>
 
-<%= link_to 'New Product', new_product_path %>
+          <tr>
+            <td class="list_description">
+              <%= product.name %>
+            </td>
+            <td class="list_description">
+              <%= product.code %>
+            </td>
+            <td class="list_description">
+              <%= product.store.location %>
+            </td>
+            <td class="list_description">
+              <%= product.attribute.category %>
+            </td>
+            <td class="list_description">
+              <%= product.attribute.price %>
+            </td>
+            <td class="list_description">
+              <%= product.quantity %>
+            </td>
+            <td class="list_description">
+              <%= product.attribute.size %>
+            </td>
+            <td class="list_description">
+              <%= product.attribute.color %>
+            </td>
+            <td class="list_description">
+              <%= link_to 'Sell', new_report_path, :class => 'btn btn-primary btn-sm', :role => "button" %>
+            </td>
+            <td class="list_actions">
+              <%= link_to 'Show', product %>
+              <br/>
+              <%= link_to 'Edit', edit_product_path(product) %>
+              <br/>
+              <%= link_to 'Destroy', product, confirm: 'Are you sure?', method: :delete %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <br>
+
+    <%= link_to 'New Product', new_product_path, :class => 'btn btn-primary btn-lg', :role => "button" %>
+  </div>
 </div>
