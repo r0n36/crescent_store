@@ -18,8 +18,8 @@
   <tbody>
     <% @products.each do |product| %>
 
-      <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
-        <td >
+      <tr>
+        <td class="list_description">
           <%= product.name %>
         </td>
         <td class="list_description">
@@ -43,7 +43,9 @@
         <td class="list_description">
           <%= product.attribute.color %>
         </td>
-
+        <td>
+          <%= link_to 'Sell', new_report_path, :class => 'btn btn-primary btn-lg', :role=>"button" %>
+        </td>
         <td class="list_actions">
           <%= link_to 'Show', product %><br/>
           <%= link_to 'Edit', edit_product_path(product) %><br/>
