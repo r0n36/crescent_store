@@ -1,17 +1,166 @@
-<%= form_for(@report) do |f| %>
-  <% if @report.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
+<% product = Product.find params[:product] %>
+<div style="max-width: 960px; margin: 0 auto">
+  <h1>Invoice</h1>
+  <%= form_for(@report) do |f| %>
+      <% if @report.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
 
-      <ul>
-      <% @report.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+            <ul>
+              <% @report.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+      <div class="row" style="border-bottom: 2px solid gray">
+        <div class="col-md-6"><h4><b>OUR DETAILS</b></h4></div>
+        <div class="col-md-6 text-right"><h4><b>INVOICE DETAILS</b></h4></div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p><b><%= product.store.name %></b></p>
+          <p><%= product.store.email %></p>
+          <p><%= product.store.phone %></p>
+          <p><%= product.store.location %></p>
+          <%= f.hidden_field :store_id, :value =>product.store.id %>
+          <%= f.hidden_field :product_id, :value =>product.id %>
+          <%= f.hidden_field :seller_id, :value =>current_user.id %>
+          <%= f.hidden_field :consumer_id %>
+        </div>
+        <div class="col-md-6 text-right">
+          <p>Invoice id #<%= current_user.store.products.last.id + 1 %></p>
+          <p>Invoice Date: <%= Time.now %></p>
+        </div>
+      </div>
+
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h4><b>BILLING DETAILS</b></h4>
+          <p>Mahbub Rony</p>
+          <p>rony.cse36@gmail.com</p>
+          <p>+8801717690796</p>
+          <p>312, Ahmed Nagar <br> Mirpur, Dhaka</p>
+        </div>
+        <div class="col-md-6">
+          Please insert consumer details ...
+          <%= f.fields_for :consumers do |ff| %>
+          <!--<form role="form" id="consumer-form" method="post" action="/reports/create_consumer" data-remote='true'>-->
+            <div class="form-group">
+              <label>First Name:</label>
+              <!--<input type="text" class="form-control" id="first-name" placeholder="Enter First Name">-->
+              <%= ff.text_field :first_name, :class=>"form-control", :id=>"first-name", :placeholder=>"Enter First Name" %>
+              <label>Last Name:</label>
+              <!--<input type="text" class="form-control" id="last-name" placeholder="Enter Last Name">-->
+              <%= ff.text_field :last_name, :class=>"form-control", :id=>"last-name", :placeholder=>"Enter Last Name" %>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <%= ff.text_field :email, :class=>"form-control", :id=>"email", :placeholder=>"Enter Email" %>
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <%= ff.text_field :phone, :class=>"form-control", :id=>"phone", :placeholder=>"Enter Phone Number" %>
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <!--<textarea class="form-control" id="address" rows="3"></textarea>-->
+              <%= ff.text_area :address, :class=>"form-control", :id=>"address", :placeholder=>"Enter Address" %>
+              <%= ff.hidden_field :report_id%>
+            </div>
+            <!--<button type="submit" class="btn btn-default">Submit Consumer</button>-->
+            <%#= ff.submit 'Submit Consumer', :class=> 'btn btn-default' %>
+          <!--</form>-->
+          <% end %>
+        </div>
+      </div>
+
+      <div>
+        <h2>ITEMS</h2>
+        <table class="table">
+          <th>#</th>
+          <th>WHAT?</th>
+          <th>OPTIONS?</th>
+          <th>HOW MANY?</th>
+          <th class="text-right">AMOUNT?</th>
+          <tr>
+            <td>1</td>
+            <td><%= "#{product.name} #{product.code}" %></td>
+            <td><%= "#{product.attribute.color}, Size: #{product.attribute.size}" %></td>
+            <td><%= f.text_field :quantity %></td>
+            <td class="text-right">1000</td>
+          </tr>
+          <!-- Button trigger modal -->
+          <!--<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">-->
+            <!--Launch demo modal-->
+          <!--</button>-->
+          <!--Fixed tr-->
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right">Sub-Total: 1000</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right">VAT: 15</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right"><b>Order Total:</b> 1015</td>
+          </tr>
+          <!--End of fixed tr-->
+        </table>
+        <!--<table class="table">-->
+
+        <!--</table>-->
+      </div>
+
+      <br>
+
+      <div class="actions">
+        <%= f.submit 'Sell and Create Invoice', :class=>"btn btn-default" %>
+      </div>
+  <% end %>
+</div>
+
+<!-- Modal -->
+<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+  <!--<div class="modal-dialog">-->
+    <!--<div class="modal-content">-->
+      <!--<div class="modal-header">-->
+        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>-->
+        <!--<h4 class="modal-title" id="myModalLabel">Modal title</h4>-->
+      <!--</div>-->
+      <!--<div class="modal-body">-->
+        <!--...-->
+      <!--</div>-->
+      <!--<div class="modal-footer">-->
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+<script>
+//    $('form#consumer-form').submit(function() {
+//        var valuesToSubmit = $(this).serialize();
+//        $.ajax({
+//            url: $(this).attr('action'), //sumbits it to the given url of the form
+//            data: valuesToSubmit
+//        }).success(function(json){
+//                   alert('Suc'); //act on result.
+//        });
+//        return false; // prevents normal behaviour
+//    });
+</script>

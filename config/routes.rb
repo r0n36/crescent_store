@@ -4,7 +4,11 @@ CrescentStore::Application.routes.draw do
 
   resources :daily_expenses
 
-  resources :reports
+  resources :reports do
+    collection do
+      post :create_consumer
+    end
+  end
   resources :stores, :only => :show
 
   resources :homes, :only => :index
