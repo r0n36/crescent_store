@@ -41,7 +41,7 @@
               <%= product.attribute.price %>
             </td>
             <td class="list_description">
-              <%= product.quantity %>
+              <span class="label <%= product.quantity > 10 ? 'label-success' : 'label-danger' %>"><%= product.quantity %></span>
             </td>
             <td class="list_description">
               <%= product.attribute.size %>
