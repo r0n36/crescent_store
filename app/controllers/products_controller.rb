@@ -7,6 +7,7 @@ class ProductsController < ApplicationController
   def index
     @product_tab = 'active'
     @products = Product.all
+    @products = @products.paginate(:page => params[:page], :per_page => 2)
   end
 
   # GET /products/1
@@ -33,8 +34,8 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        #@product.store_id = Store.where(location: params[:product][:stores][:store_name]).first.id if params[:product][:stores][:store_name].present?
-        #@product.save
+        @product.store_id = params[:product][:stores][:store_id] if params[:product][:stores][:store_id].present?
+        @product.save
         @attribute = Attribute.new(:product_id => @product.id, :size => params[:product][:attributes][:size], :color => params[:product][:attributes][:color], :category => params[:product][:attributes][:category], :price => params[:product][:attributes][:price])
         @attribute.save
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
@@ -51,7 +52,7 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
-        @product.store_id = Store.where(location: params[:product][:stores][:store_name]).first.id if params[:product][:stores][:store_name].present?
+        @product.store_id = params[:product][:stores][:store_id] if params[:product][:stores][:store_id].present?
         @product.save
         @attribute = Attribute.find_by_product_id @product.id
         @attribute.size= params[:product][:attributes][:size]

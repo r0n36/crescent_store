@@ -1,6 +1,20 @@
-<h1>Editing product</h1>
+<div class="container panel panel-primary">
+  <div class="panel-body">
+    <h1>Edit Product</h1>
+  </div>
+</div>
+
 
 <%= render 'form' %>
 
 <%= link_to 'Show', @product %> |
 <%= link_to 'Back', products_path %>
+
+<style>
+    .container{
+        padding: 0px;
+    }
+    .panel-primary{
+        background: #428BCA;
+    }
+</style>
