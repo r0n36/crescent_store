@@ -1,5 +1,18 @@
-<h1>New product</h1>
+<div class="container panel panel-primary">
+  <div class="panel-body">
+    <h1>New Product</h1>
+  </div>
+  <div class="panel-footer">Create a new product</div>
+</div>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', products_path %>
+
+<style>
+  .container{
+      padding: 0px;
+  }
+  .panel-primary{
+      background: #428BCA;
+  }
+</style>
