@@ -29,7 +29,7 @@
 
           <tr>
             <td class="list_description">
-              <%= image_tag product.image_url(:thumb) %>
+              <%= image_tag product.image_url(:thumb) unless product.image.blank? %>
             </td>
             <td class="list_description">
               <%= product.name %>
