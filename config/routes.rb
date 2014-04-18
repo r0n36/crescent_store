@@ -13,6 +13,7 @@ CrescentStore::Application.routes.draw do
 
   resources :homes, :only => :index
   resources :products
+  resources :report_items
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

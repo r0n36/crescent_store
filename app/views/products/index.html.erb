@@ -56,7 +56,13 @@
               <%= product.attribute.color %>
             </td>
             <td class="list_description">
-              <%= link_to 'Sell', new_report_path(:product => product.id), :class => 'btn btn-primary btn-sm', :role => "button" %>
+              <%= button_to 'Add', report_items_path(product_id: product), remote: true, :class => 'btn btn-primary btn-sm' %>
+              <!--<div class="checkbox">-->
+                <!--<label>-->
+                  <!--<%#= check_box_tag "product_#{product.id}", 1 ,:onclick => "addToReport(#{product.id})" %>-->
+                  <!--<b>Add to Sell</b>-->
+                <!--</label>-->
+              <!--</div>-->
             </td>
             <td class="list_actions">
               <%= link_to 'Show', product %>
@@ -71,8 +77,36 @@
     </table>
 
     <br>
-
-  <%= link_to 'New Product', new_product_path, :class => 'btn btn-success btn-lg', :role => "button" %>
+  <div class="row">
+      <div class="col-md-8">
+        <%= link_to 'New Product', new_product_path, :class => 'btn btn-success btn-lg', :role => "button" %>
+      </div>
+      <div class="col-md-4" id="sell-button">
+        <% report = Report.where(id: session[:report_id]) %>
+        <%= link_to 'Sell All Selected Products', (report.blank? ? '#' : edit_report_path(report.first)), :class => 'btn btn-large btn-block btn-warning pull-right', :role => "button" %>
+      </div>
+  </div>
   <br><br>
   <%= will_paginate @products, :renderer=> 'BootstrapPagination::Rails' %>
 </div>
+<script>
+//    function addToReport(product_id){
+//        if($(this).attr("checked")){
+//            $.ajax({
+//                type: "post",
+//                url: "<%#= report_items_path %>",
+//                data: {product_id: product_id},
+//                beforeSend: function(){},
+//                success: function(response){}
+//            });
+//        }else{
+//            $.ajax({
+//                type: "delete",
+//                url: '/report_items/'+product_id,
+////                data: {product_id: product_id},
+//                beforeSend: function(){},
+//                success: function(){}
+//            });
+//        }
+//    }
+</script>

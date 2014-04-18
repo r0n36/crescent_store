@@ -49,8 +49,19 @@ class ReportsController < ApplicationController
   # PATCH/PUT /reports/1
   # PATCH/PUT /reports/1.json
   def update
+    @report.report_items.each do |report_item|
+      quantity = params["report_item_#{report_item.id}"].to_i
+      report_item.quantity = quantity
+      report_item.save
+      product = Product.find report_item.product_id
+      product.quantity = product.quantity - quantity
+      product.save!(:validate => false)
+    end
+    @consumer = Consumer.create!(consumer_params)
     respond_to do |format|
       if @report.update(report_params)
+        @report.consumer_id = @consumer.id
+        @report.save
         format.html { redirect_to @report, notice: 'Report was successfully updated.' }
         format.json { head :no_content }
       else

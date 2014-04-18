@@ -1,4 +1,5 @@
-<% product = Product.find params[:product] %>
+<%# product = Product.find params[:product] %>
+<% report = Report.find session[:report_id] %>
 <div style="max-width: 960px; margin: 0 auto">
   <h1>Invoice</h1>
   <%= form_for(@report) do |f| %>
@@ -20,17 +21,17 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <p><b><%= product.store.name %></b></p>
-          <p><%= product.store.email %></p>
-          <p><%= product.store.phone %></p>
-          <p><%= product.store.location %></p>
-          <%= f.hidden_field :store_id, :value =>product.store.id %>
-          <%= f.hidden_field :product_id, :value =>product.id %>
+          <p><b><%= report.store.name %></b></p>
+          <p><%= report.store.email %></p>
+          <p><%= report.store.phone %></p>
+          <p><%= report.store.location %></p>
+          <%#= f.hidden_field :store_id, :value =>product.store.id %>
+          <%#= f.hidden_field :product_id, :value =>product.id %>
           <%= f.hidden_field :seller_id, :value =>current_user.id %>
           <%= f.hidden_field :consumer_id %>
         </div>
         <div class="col-md-6 text-right">
-          <p>Invoice id #<%= current_user.store.products.last.id + 1 %></p>
+          <p>Invoice id #<%= session[:report_id] %></p>
           <p>Invoice Date: <%= Time.now %></p>
         </div>
       </div>
@@ -86,13 +87,16 @@
           <th>OPTIONS?</th>
           <th>HOW MANY?</th>
           <th class="text-right">AMOUNT?</th>
+          <% report.report_items.each_with_index do |report_item, index| %>
+          <% product = Product.find report_item.product_id %>
           <tr>
-            <td>1</td>
+            <td><%= index+1 %></td>
             <td><%= "#{product.name} #{product.code}" %></td>
             <td><%= "#{product.attribute.color}, Size: #{product.attribute.size}" %></td>
-            <td><%= f.text_field :quantity %></td>
-            <td class="text-right">1000</td>
+            <td><%= text_field_tag "report_item_#{report_item.id}" %></td>
+            <td class="text-right">0</td>
           </tr>
+          <% end %>
           <!-- Button trigger modal -->
           <!--<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">-->
             <!--Launch demo modal-->
@@ -103,21 +107,21 @@
             <td></td>
             <td></td>
             <td></td>
-            <td class="text-right">Sub-Total: 1000</td>
+            <td class="text-right">Sub-Total: <spna id='sub-total'>0</spna></td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td class="text-right">VAT: 15</td>
+            <td class="text-right">VAT: <span id="vat">0</span></td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td class="text-right"><b>Order Total:</b> 1015</td>
+            <td class="text-right"><b>Order Total:</b> <span id="total"></span></td>
           </tr>
           <!--End of fixed tr-->
         </table>
@@ -163,4 +167,15 @@
 //        });
 //        return false; // prevents normal behaviour
 //    });
+//        $("#pquantity").keyup(function(){
+//            alert('Hello');
+//            var quantity = $(this).text();
+//            var price = <%#= product.attribute.price %>;
+//            alert(price);
+//            var without_vat = quantity * price;
+//            alert(without_vat)
+//            var with_vat = without_vat + (without_vat *.15); // 15% vat
+//            alert(with_vat);
+//            $('#total').text = 30000;
+//        })
 </script>
