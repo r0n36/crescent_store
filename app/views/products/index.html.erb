@@ -11,6 +11,7 @@
   <table class="table table-striped table-bordered">
       <thead>
       <tr>
+        <th>Product Image</th>
         <th>Product Name</th>
         <th>Product Code</th>
         <th>Store</th>
@@ -27,6 +28,9 @@
       <% @products.each do |product| %>
 
           <tr>
+            <td class="list_description">
+              <%= image_tag product.image_url(:thumb) %>
+            </td>
             <td class="list_description">
               <%= product.name %>
             </td>

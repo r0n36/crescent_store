@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Image:</strong>
+  <%= image_tag @product.image_url(:profile) %>
+</p>
+
+<p>
   <strong>Name:</strong>
   <%= @product.name %>
 </p>
