@@ -5,7 +5,25 @@ class ReportsController < ApplicationController
   # GET /reports.json
   def index
     @report_tab = 'active'
-    @reports = Report.all
+
+    # Chart One ===================
+    @reports = current_user.store.reports
+    @todays_reports = current_user.store.reports.where('created_at > ?', 1.days.ago)
+    @chart_one = []
+    @todays_reports.each do |report|
+      time = report.created_at + 6.hours #Lame technique. Will be fixed soon. This is only of Bangladesh and +6 TimeZone
+      @chart_one << ["[Date.UTC(#{time.year}, #{time.month}, #{time.day}, #{time.hour}, #{time.min}), #{calculate_total_price_of_a_report(report)}]"]
+    end
+    @chart_one = @chart_one.join(', ')
+
+    # Chart Two ===================
+    @products = current_user.store.products
+    @chart_two = []
+    @products.each do |product|
+      @chart_two << ["['#{product.attribute.category}', #{product.quantity}]"] unless product.attribute.category = 'Shoe'
+      @chart_two << "{name: 'Shoe',y: #{product.quantity}, sliced: true,selected: true}" if product.attribute.category = 'Shoe'
+    end
+    @chart_two = @chart_two.join(', ')
   end
 
   # GET /reports/1
@@ -80,6 +98,16 @@ class ReportsController < ApplicationController
       format.html { redirect_to reports_url }
       format.json { head :no_content }
     end
+  end
+
+  def calculate_total_price_of_a_report(report)
+    total_price = 0
+    report.report_items.each do |item|
+      product = Product.find item.product_id
+      total_price += product.attribute.price
+    end
+
+    return (total_price + (total_price * 0.15))
   end
 
   def create_consumer

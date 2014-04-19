@@ -1,25 +1,127 @@
-<h1>Listing reports</h1>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<div style="width: 80%; margin: 0 auto">
+    <div class="row">
+      <div class="col-md-6"><div id="todays-sell" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>
+      <div class="col-md-6"><div id="available-product" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>
+    </div>
+    <!--<div class="row"><div id="todays-sold" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>-->
+  <br><br>
 
-<table>
-  <thead>
+  <h2>All Reports</h2>
+  <table class="table">
+    <thead>
     <tr>
-      <th></th>
-      <th></th>
+      <th>#</th>
+      <th>Seller Name</th>
+      <th>Consumer Name</th>
+      <th>Quantity</th>
+      <th>Total Price</th>
+      <th>Sold At</th>
       <th></th>
     </tr>
-  </thead>
+    </thead>
 
-  <tbody>
-    <% @reports.each do |report| %>
-      <tr>
-        <td><%= link_to 'Show', report %></td>
-        <td><%= link_to 'Edit', edit_report_path(report) %></td>
-        <td><%= link_to 'Destroy', report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <tbody>
+    <% @reports.each_with_index do |report, index| %>
+        <% seller = User.find report.seller_id %>
+        <% consumer = Consumer.find report.consumer_id %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= "#{seller.first_name} #{seller.last_name}" %></td>
+          <td><%= "#{consumer.first_name} #{consumer.last_name}" %></td>
+          <td><%= calculate_total_quantity(report) %></td>
+          <td><%= calculate_total_price(report) %></td>
+          <td><%= report.created_at.strftime("%B %d, %Y") %></td>
+          <td><%= link_to 'Show Details', report, :class=>"btn btn-info" %></td>
+        </tr>
     <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
+<script>
+    $(function () {
+        $('#todays-sell').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Product Sold by Time'
+            },
+            subtitle: {
+                text: "Source: <%= current_user.store.name %>"
+            },
+            xAxis: {
+                title: {
+                    enabled: true,
+                    text: 'Hours of the Day'
+                },
+                type: 'datetime',
 
-<br>
+                dateTimeLabelFormats : {
+                    hour: '%I %p',
+                    minute: '%I:%M %p'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Product Price'
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                    return ''+
+                            "" +
+                            'Time: '+ Highcharts.dateFormat('%I:%M %p', this.x) + ' & Sold Price:' + this.y;
+                }
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '<%= current_user.store.name %>',
+                data: [<%= @chart_one %>]
+            }]
+        });
+    });
 
-<%= link_to 'New Report', new_report_path %>
+    $(function () {
+        $('#available-product').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Available Product by Type'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Product Type',
+                data: [ <%= @chart_two.html_safe %> ]
+            }]
+        });
+    });
+
+</script>
+
+<%#= link_to 'New Report', new_report_path %>
