@@ -1,4 +1,102 @@
-<p id="notice"><%= notice %></p>
+<div style="position: fixed; right: 10.5%">
+  <%= link_to '<span class="glyphicon glyphicon-print"></span> Print'.html_safe, 'javascript:void(0)', :onclick=>"window.print()", :class=>'btn btn-default btn-lg pull-right' %>
+</div>
+<div id="printable">
+  <h1>Invoice</h1>
+  <div class="row" style="border-bottom: 2px solid gray">
+        <div class="col-md-6"><h4><b>OUR DETAILS</b></h4></div>
+        <div class="col-md-6 text-right"><h4><b>INVOICE DETAILS</b></h4></div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p><b><%= @report.store.name %></b></p>
+          <p><%= @report.store.email %></p>
+          <p><%= @report.store.phone %></p>
+          <p><%= @report.store.location %></p>
+        </div>
+        <div class="col-md-6 text-right">
+          <p>Invoice id #<%= @report.id %></p>
+          <p>Invoice Date: <%= @report.created_at %></p>
+        </div>
+      </div>
+
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-6">
+          <% @consumer = Consumer.find @report.consumer_id %>
+          <h4><b>BILLING DETAILS</b></h4>
+          <p><%= @consumer.first_name %> <%= @consumer.last_name %></p>
+          <p><%= @consumer.email %></p>
+          <p><%= @consumer.phone %></p>
+          <p><%= @consumer.address %></p>
+        </div>
+        <div class="col-md-6">
+          <div id="paid-logo"><%= image_tag 'paid.png' %></div>
+        </div>
+      </div>
+
+      <div>
+        <h2>ITEMS</h2>
+        <table class="table">
+          <th>#</th>
+          <th>WHAT?</th>
+          <th>OPTIONS?</th>
+          <th>HOW MANY?</th>
+          <th class="text-right">AMOUNT?</th>
+          <% sub_grand_total = 0 %>
+          <% @report.report_items.each_with_index do |report_item, index| %>
+              <% product = Product.find report_item.product_id %>
+              <tr>
+                <td><%= index+1 %></td>
+                <td><%= "#{product.name} #{product.code}" %></td>
+                <td><%= "#{product.attribute.color}, Size: #{product.attribute.size}" %></td>
+                <td><%= report_item.quantity %></td>
+                <td class="text-right"><span><%= (product.attribute.price * report_item.quantity).round(2) %> BDT</span></td>
+                <% sub_grand_total += (product.attribute.price * report_item.quantity).to_f.round(2) %>
+              </tr>
+          <% end %>
+          <!-- Button trigger modal -->
+          <!--<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">-->
+          <!--Launch demo modal-->
+          <!--</button>-->
+          <!--Fixed tr-->
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right"><b>Sub-Total:</b> <spna id='sub-total'><%= sub_grand_total.to_f.round(2) %> BDT</spna></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right">
+              <b>15% VAT:</b>
+              <span id="vat"><%= (sub_grand_total * 0.15).to_f.round(2) %> BDT</span>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right">
+              <b style="font-size: 15px">Order Total:</b>
+              <span id="total"><%= (sub_grand_total + (sub_grand_total * 0.15)).to_f.round(2) %> BDT</span>
+            </td>
+          </tr>
+          <!--End of fixed tr-->
+        </table>
+        <!--<table class="table">-->
+
+        <!--</table>-->
+      </div>
+
+      <br>
+</div>
 
 <%= link_to 'Edit', edit_report_path(@report) %> |
 <%= link_to 'Back', reports_path %>

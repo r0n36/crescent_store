@@ -25,3 +25,5 @@
 .btn-primary{color: white !important;}
 .form-group .col-sm-10{ padding-bottom: 15px}
 #total{font-size: 18px; font-weight: bold}
+#paid-logo{background: url("paid.png"); width: 300px; height: 300px}
+#printable{border: 10px solid gray; padding: 30px; width: 65%; margin: 0 auto}
