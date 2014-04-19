@@ -1,1 +1,2 @@
+$("#add-product-<%= @product.id %>").html("<%= escape_javascript(link_to 'Remove Product', @report_item, method: :delete, data: { confirm: 'Are you sure?' }, remote: true, :class=>"btn btn-danger").html_safe %>")
 $("#sell-button").html("<%= escape_javascript(link_to 'Sell All Selected Products', edit_report_path(@report), :class => 'btn btn-large btn-block btn-warning pull-right', :role => "button").html_safe %>")

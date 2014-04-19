@@ -55,8 +55,18 @@
             <td class="list_description">
               <%= product.attribute.color %>
             </td>
-            <td class="list_description">
-              <%= button_to 'Add', report_items_path(product_id: product), remote: true, :class => 'btn btn-primary btn-sm' %>
+            <td class="list_description" id="add-product-<%= product.id %>">
+              <% unless session[:report_id].nil? %>
+                <% report_item = ReportItem.where(product_id: product.id, report_id: session[:report_id]) %>
+                <% if report_item.present? %>
+                  <%= link_to 'Remove Product', report_item.first, method: :delete, data: { confirm: 'Are you sure?' }, remote: true, :class=>"btn btn-danger" %>
+                <% else %>
+                  <%= button_to 'Add Product', report_items_path(product_id: product), remote: true, :class => 'btn btn-primary btn-sm' %>
+                <% end %>
+              <% else %>
+                  <%= button_to 'Add Product', report_items_path(product_id: product), remote: true, :class => 'btn btn-primary btn-sm' %>
+              <% end %>
+
               <!--<div class="checkbox">-->
                 <!--<label>-->
                   <!--<%#= check_box_tag "product_#{product.id}", 1 ,:onclick => "addToReport(#{product.id})" %>-->

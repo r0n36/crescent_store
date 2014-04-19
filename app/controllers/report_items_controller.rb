@@ -25,8 +25,8 @@ class ReportItemsController < ApplicationController
   # POST /report_items
   # POST /report_items.json
   def create
-    product = Product.find(params[:product_id])
-    @report_item = @report.add_product(product.id)
+    @product = Product.find(params[:product_id])
+    @report_item = @report.add_product(@product.id)
 
     respond_to do |format|
       if @report_item.save
@@ -62,6 +62,7 @@ class ReportItemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to report_items_url }
       format.json { head :no_content }
+      format.js
     end
   end
 
