@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
   def index
     @product_tab = 'active'
     @products = current_user.store.products
-    @products = @products.paginate(:page => params[:page], :per_page => 5)
+    @products = @products.search(params[:search]).paginate(:page => params[:page], :per_page => 5)
   end
 
   # GET /products/1

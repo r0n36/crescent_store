@@ -1,4 +1,29 @@
 <p id="notice"><%= notice %></p>
 
+<p>
+  <strong>Store Name:</strong>
+  <%= Store.where(:id => @daily_expense.store_id).first.name %>
+</p>
+
+<p>
+  <strong>Store Location:</strong>
+  <%= Store.where(:id => @daily_expense.store_id).first.location %>
+</p>
+
+<p>
+  <strong>Expense For:</strong>
+  <%= @daily_expense.expense_for %>
+</p>
+
+<p>
+  <strong>Expense By:</strong>
+  <%= User.where(:id => @daily_expense.expense_by).first.first_name + " " + User.where(:id => @daily_expense.expense_by).first.last_name  %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @daily_expense.expense %>
+</p>
+
 <%= link_to 'Edit', edit_daily_expense_path(@daily_expense) %> |
 <%= link_to 'Back', daily_expenses_path %>

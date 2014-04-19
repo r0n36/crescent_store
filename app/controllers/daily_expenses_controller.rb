@@ -6,6 +6,7 @@ class DailyExpensesController < ApplicationController
   def index
     @daily_expense_tab = 'active'
     @daily_expenses = DailyExpense.all
+    @daily_expenses = @daily_expenses.paginate(:page => params[:page], :per_page => 5)
   end
 
   # GET /daily_expenses/1
@@ -29,7 +30,8 @@ class DailyExpensesController < ApplicationController
   # POST /daily_expenses.json
   def create
     @daily_expense = DailyExpense.new(daily_expense_params)
-
+    @daily_expense.store_id = params[:daily_expense][:stores][:store_id] if params[:daily_expense][:stores][:store_id].present?
+    @daily_expense.expense_by = params[:daily_expense][:users][:expense_by] if params[:daily_expense][:users][:expense_by].present?
     respond_to do |format|
       if @daily_expense.save
         format.html { redirect_to @daily_expense, notice: 'Daily expense was successfully created.' }
@@ -45,7 +47,10 @@ class DailyExpensesController < ApplicationController
   # PATCH/PUT /daily_expenses/1.json
   def update
     respond_to do |format|
+      @daily_expense.store_id = params[:daily_expense][:stores][:store_id] if params[:daily_expense][:stores][:store_id].present?
+      @daily_expense.expense_by = params[:daily_expense][:users][:expense_by] if params[:daily_expense][:users][:expense_by].present?
       if @daily_expense.update(daily_expense_params)
+        @daily_expense.save
         format.html { redirect_to @daily_expense, notice: 'Daily expense was successfully updated.' }
         format.json { head :no_content }
       else
@@ -73,6 +78,6 @@ class DailyExpensesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def daily_expense_params
-      params[:daily_expense]
+      params.require(:daily_expense).permit(:store_id, :expense_by, :expense_for, :expense)
     end
 end
