@@ -1,5 +1,6 @@
 class ReportItemsController < ApplicationController
   include CurrentReport
+  before_action :authenticate_user!
   before_action :set_report, only: [:create]
   before_action :set_report_item, only: [:show, :edit, :update, :destroy]
   # GET /report_items

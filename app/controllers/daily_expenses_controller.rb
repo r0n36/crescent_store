@@ -1,4 +1,5 @@
 class DailyExpensesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_daily_expense, only: [:show, :edit, :update, :destroy]
 
   # GET /daily_expenses
