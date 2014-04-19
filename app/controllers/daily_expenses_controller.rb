@@ -6,7 +6,11 @@ class DailyExpensesController < ApplicationController
   def index
     @daily_expense_tab = 'active'
     @daily_expenses = DailyExpense.all
-    @daily_expenses = @daily_expenses.paginate(:page => params[:page], :per_page => 5)
+    if params[:days].present?
+      @daily_expenses = @daily_expenses.where("updated_at >= ?", Time.zone.now.beginning_of_day).paginate(:page => params[:page], :per_page => 5) if params[:days] == 'today'
+      @daily_expenses = @daily_expenses.where(:updated_at => 1.hour.ago..Time.zone.now).paginate(:page => params[:page], :per_page => 5) if params[:days] == '1day'
+    else @daily_expenses = @daily_expenses.paginate(:page => params[:page], :per_page => 5)
+    end
   end
 
   # GET /daily_expenses/1

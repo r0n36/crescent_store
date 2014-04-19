@@ -7,6 +7,30 @@
     </div>
   </div>
   <br><br>
+
+
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+      <p class="navbar-text navbar-left">Sort Expense by Days</p>
+
+      <button type="button" class="btn btn-default navbar-btn" id="today-button">Today</button>
+      <button type="button" class="btn btn-default navbar-btn" id="one-day-button">1 day ago</button>
+      <button type="button" class="btn btn-default navbar-btn" id="two-day-button">2 days ago</button>
+      <button type="button" class="btn btn-default navbar-btn" id="seven-day-button">7 days ago</button>
+
+    </div><!-- /.container-fluid -->
+  </nav>
+
   <table class="table table-striped table-bordered">
     <thead>
     <tr>
@@ -59,3 +83,27 @@
   <br><br>
   <%= will_paginate @daily_expenses, :renderer=> 'BootstrapPagination::Rails' %>
 </div>
+
+<script>
+        $("#today-button").click(function() {
+            $.ajax({
+                url: "/daily_expenses",
+                type: "GET",
+                data: {days: "today"},
+                success: function (data) {
+//                    window.location.reload();
+                }
+            });
+        });
+        $("#one-day-button").click(function() {
+            $.ajax({
+                url: "/daily_expenses",
+                type: "GET",
+                data: {days: "1day"},
+                success: function (data) {
+//                    window.location.reload();
+                }
+            });
+        });
+</script>
+
