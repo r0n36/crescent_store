@@ -1,2 +1,2 @@
 $("#add-product-<%= @report_item.product_id %>").html("<%= escape_javascript( button_to 'Add Product', report_items_path(product_id: @report_item.product_id), remote: true, :class => 'btn btn-primary btn-sm').html_safe %>")
-//$("#sell-button").html("<%#= escape_javascript(link_to 'Sell All Selected Products', edit_report_path(@report), :class => 'btn btn-large btn-block btn-warning pull-right', :role => "button").html_safe %>")
+$("#sell-button").html("<%= escape_javascript(link_to 'Sell All Selected Products', (@report.report_items.count == 0 ? '#' : edit_report_path(@report)), :class => 'btn btn-large btn-block btn-warning pull-right', :role => "button").html_safe %>")

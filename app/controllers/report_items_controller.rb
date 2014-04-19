@@ -59,6 +59,8 @@ class ReportItemsController < ApplicationController
   # DELETE /report_items/1.json
   def destroy
     @report_item.destroy
+    @report = @report_item.report
+    @report.destroy if @report.report_items.count == 0
     respond_to do |format|
       format.html { redirect_to report_items_url }
       format.json { head :no_content }
