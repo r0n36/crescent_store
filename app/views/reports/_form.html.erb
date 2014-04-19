@@ -31,8 +31,8 @@
           <%= f.hidden_field :consumer_id %>
         </div>
         <div class="col-md-6 text-right">
-          <p>Invoice id #<%= session[:report_id] %></p>
-          <p>Invoice Date: <%= Time.now %></p>
+          <p>Invoice id #<b><%= session[:report_id] %></b></p>
+          <p>Invoice Date: <b><%= report.created_at.strftime("%B %d, %Y") %></b></p>
         </div>
       </div>
 

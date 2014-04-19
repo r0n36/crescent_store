@@ -15,8 +15,8 @@
           <p><%= @report.store.location %></p>
         </div>
         <div class="col-md-6 text-right">
-          <p>Invoice id #<%= @report.id %></p>
-          <p>Invoice Date: <%= @report.created_at %></p>
+          <p>Invoice id #<b><%= @report.id %></b></p>
+          <p>Invoice Date: <b><%= @report.created_at.strftime("%B %d, %Y") %></b></p>
         </div>
       </div>
 
