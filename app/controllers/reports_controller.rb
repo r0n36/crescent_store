@@ -62,6 +62,7 @@ class ReportsController < ApplicationController
       if @report.update(report_params)
         @report.consumer_id = @consumer.id
         @report.save
+        session[:report_id] = nil
         format.html { redirect_to @report, notice: 'Report was successfully updated.' }
         format.json { head :no_content }
       else

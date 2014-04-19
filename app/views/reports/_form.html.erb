@@ -93,8 +93,8 @@
             <td><%= index+1 %></td>
             <td><%= "#{product.name} #{product.code}" %></td>
             <td><%= "#{product.attribute.color}, Size: #{product.attribute.size}" %></td>
-            <td><%= text_field_tag "report_item_#{report_item.id}" %></td>
-            <td class="text-right">0</td>
+            <td><%= text_field_tag "report_item_#{report_item.id}",'', :onkeyup=>"calculatePrice(#{report_item.id}, #{product.attribute.price} )" %></td>
+            <td class="text-right"><span class="cart_item report_item_<%=report_item.id%>">0.00</span> BDT</td>
           </tr>
           <% end %>
           <!-- Button trigger modal -->
@@ -107,21 +107,21 @@
             <td></td>
             <td></td>
             <td></td>
-            <td class="text-right">Sub-Total: <spna id='sub-total'>0</spna></td>
+            <td class="text-right"><b>Sub-Total:</b> <spna id='sub-total'>0.00</spna> BDT</td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td class="text-right">VAT: <span id="vat">0</span></td>
+            <td class="text-right"><b>15% VAT:</b> <span id="vat">0.00</span> BDT</td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td class="text-right"><b>Order Total:</b> <span id="total"></span></td>
+            <td class="text-right"><b style="font-size: 15px">Order Total:</b> <span id="total">0.00</span> BDT</td>
           </tr>
           <!--End of fixed tr-->
         </table>
@@ -178,4 +178,23 @@
 //            alert(with_vat);
 //            $('#total').text = 30000;
 //        })
+
+function calculatePrice(report_id, price)
+{
+    var quantity = document.getElementById('report_item_'+report_id).value;
+    if($.isNumeric(quantity)){
+        var per_product_cost = parseFloat(price * quantity).toFixed(2);
+        document.getElementsByClassName('report_item_'+report_id)[0].innerHTML = per_product_cost;
+
+        var all_elements = document.getElementsByClassName('cart_item');
+        var sub_grand_total = 0
+        for(var i=0, max= all_elements.length; i < max; i++){
+            sub_grand_total += parseInt(all_elements[i].innerHTML);
+        }
+        document.getElementById('sub-total').innerHTML = parseFloat(sub_grand_total).toFixed(2);
+        document.getElementById('vat').innerHTML = parseFloat(sub_grand_total * .15).toFixed(2);
+        document.getElementById('total').innerHTML = parseFloat(sub_grand_total + (sub_grand_total * .15)).toFixed(2);
+    }
+
+}
 </script>
